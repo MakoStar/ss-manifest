@@ -1,0 +1,70 @@
+# ============================================================
+# 应用程序配置文件
+# 修改后重启应用即可生效
+# ============================================================
+
+# 默认区域：启用 IS_USE_DEFAULT_REGION 时生效
+DEFAULT_REGION = "CN"
+LAUNCHER_VERSION = "1.6.0"
+
+
+# ============================================================
+# 服务器端点配置(launcher)
+# ============================================================
+[ENDPOINTS.CN]
+TAG = "StellaSora_CN"
+SALT = "872550AD59A235662C5B7D5F88CEBE4B"
+API_URL = "https://launcher-api.yostar.net"
+PKG_URL = "https://game-launcher-ss-cn.yostar.net"
+
+[ENDPOINTS.EN]
+TAG = "StellaSora_EN"
+SALT = "DE7108E9B2842FD460F4777702727869"
+API_URL = "https://api-launcher-en.yo-star.com"
+PKG_URL = "https://launcher-pkg-ss-en.yo-star.com"
+
+[ENDPOINTS.JP]
+TAG = "StellaSora_JP"
+SALT = "DE7108E9B2842FD460F4777702727869"
+API_URL = "https://api-launcher-jp.yo-star.com"
+PKG_URL = "https://launcher-pkg-ss-jp.yo-star.com"
+
+[ENDPOINTS.KR]
+TAG = "StellaSora_KR"
+SALT = "DE7108E9B2842FD460F4777702727869"
+API_URL = "https://api-launcher-kr.yo-star.com"
+PKG_URL = "https://launcher-pkg-ss-kr.yo-star.com"
+
+[ENDPOINTS.TW]
+TAG = "StellaSora_TW"
+SALT = "DE7108E9B2842FD460F4777702727869"
+API_URL = "https://api-launcher-tw.stargazer-games.com"
+PKG_URL = "https://launcher-pkg-ss-hk.stargazer-games.com"
+
+
+# ============================================================
+# 文件路径配置
+# ============================================================
+[FILE_PATH]
+ROOT_OUTPUT_DIR = "./output/Retrieve"
+
+
+# ============================================================
+# 文件名称配置
+# ============================================================
+[FILE_NAME]
+GAME_CONFIG_FILE = "config.json"
+RETRIEVE_MANIFEST_FILE = "retrieve.json"
+RESOURCE_MANIFEST_FILE = "manifest.json"
+LAUNCHER_CONFIG_VERSION_FILE = "version.json"
+
+
+# ============================================================
+# 功能开关
+# ============================================================
+[FEATURE_FLAGS]
+IS_USE_DEFAULT_REGION = false
+IS_SAVE_LAUNCHER_GAME_CONFIG = true
+IS_SAVE_ZIP_ONLINE_CONFIG = true
+IS_SAVE_RESOURCE_MANIFEST = true
+IS_SAVE_LAUNCHER_CONFIG_VERSION = true
