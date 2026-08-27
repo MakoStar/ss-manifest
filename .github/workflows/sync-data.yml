@@ -1,0 +1,88 @@
+name: Sync retrieve data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+
+permissions:
+      contents: write 
+
+jobs:
+  sync-data:
+    runs-on: ubuntu-latest
+    
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          path: 'source_repo'
+          fetch-depth: 1
+
+      - name: Run tool
+        working-directory: source_repo/tools/RetrieveTool/
+        run: |
+          chmod +x ./RetrieveTool
+          ./RetrieveTool --ret-launcher-config
+
+      - name: Commit data
+        working-directory: source_repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+  
+          SOURCE_DIR="tools/RetrieveTool/output/Retrieve"
+          TARGET_DIR="launcher-manifest"
+          VERSION_FILE="$TARGET_DIR/version.json"
+      
+          if [ -d "$SOURCE_DIR" ]; then
+            rsync -a --delete "$SOURCE_DIR"/ "$TARGET_DIR"/
+          else
+            echo "RetrieveTool output directory not found!"
+            exit 1
+          fi
+      
+          if [ ! -f "$VERSION_FILE" ]; then
+            echo "version.json not found!"
+            exit 1
+          fi
+      
+          # 检查 version.json 是否有变更
+          git add "$VERSION_FILE"
+          if git diff --staged --quiet -- "$VERSION_FILE"; then
+            echo "version.json has not changed, skipping commit"
+            git reset HEAD "$VERSION_FILE"
+            exit 0
+          fi
+      
+          # 版本有变化 -> 先提交 version.json
+          git commit -m "update: launcher-data version.json"
+      
+          # 遍历区域并提交对应目录
+          for region in $(jq -r 'keys[]' "$VERSION_FILE"); do
+            version=$(jq -r ".\"$region\"" "$VERSION_FILE")
+            region_lower="${region,,}"
+            REGION_DIR="$TARGET_DIR/$region"
+            if [ -d "$REGION_DIR" ]; then
+              git add "$REGION_DIR/"
+              if ! git diff --staged --quiet -- "$REGION_DIR/"; then
+                git commit -m "chore($region_lower): v$version"
+              else
+                git reset HEAD "$REGION_DIR/"
+                echo "No changes in $region, skipping"
+              fi
+            else
+              echo "Directory $REGION_DIR not found, skipping"
+            fi
+          done
+      
+          # 推送所有提交
+          git push
+        
+      - name: Auto commit
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          repository: ./source_repo
+          commit_message: "update: retrieve-tool.toml"
+          file_pattern: "tools/RetrieveTool/retrieve-tool.toml"
