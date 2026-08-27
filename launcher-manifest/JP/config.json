@@ -1,0 +1,19 @@
+{
+    "code": 200,
+    "data": {
+        "config_id": 0,
+        "crc64": "",
+        "decompression_size": "18GB",
+        "file_url": "",
+        "game_file_size": "",
+        "game_file_size_type": "",
+        "game_latest_file_path": "prod/ZIP_TEMP/StellaSora_JP_TEMP/StellaSora_JP-1.13.0-game.zip",
+        "game_latest_version": "1.13.0",
+        "game_lowest_version": "1.13.0",
+        "game_start_exe_name": "StellaSora",
+        "game_start_params": [],
+        "game_uninstall_script": "",
+        "size": 0
+    },
+    "msg": "OK"
+}
