@@ -38,20 +38,23 @@ jobs:
           restore-keys: cargo-cache-
 
       - name: Build tools
-        run: cargo build -p retrieve-tool --release
+        run: cargo build -p retrieve-tool -p manifest-tool --release
         working-directory: ss-tools
 
       - name: Copy tools
         run: |
           mkdir -p tools/RetrieveTool/
           cp ss-tools/target/release/RetrieveTool tools/RetrieveTool/
+          
+          mkdir -p tools/ManifestTool/
+          cp ss-tools/target/release/ManifestTool tools/ManifestTool/
 
       - name: Auto commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          git add tools/RetrieveTool/
+          git add tools/RetrieveTool/ tools/ManifestTool/
           
           if git diff --staged --quiet; then
             echo "No changes to commit"
