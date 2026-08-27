@@ -1,0 +1,99 @@
+name: Sync manifest data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * *'
+
+permissions:
+      contents: write 
+
+jobs:
+  sync-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          path: 'source_repo'
+          fetch-depth: 1
+
+      - name: Cache output
+        uses: actions/cache@v6
+        with:
+          path: source_repo/tools/ManifestTool/output
+          key: ss-manifest-${{ github.run_id }}
+          restore-keys: ss-manifest-
+
+      - name: Run tool
+        working-directory: source_repo/tools/ManifestTool/
+        run: |
+          chmod +x ./ManifestTool
+          ./ManifestTool --generate-manifest-record
+
+      - name: Commit data
+        working-directory: source_repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+  
+          SOURCE_DIR="tools/ManifestTool/output/Manifest"
+          TARGET_DIR="resource-manifest"
+          VERSION_FILE="$TARGET_DIR/version.json"
+          MANIFEST_FILE="resource_manifest.json"
+      
+          if [ -d "$SOURCE_DIR" ]; then
+            rsync -a --delete "$SOURCE_DIR"/ "$TARGET_DIR"/
+          else
+            echo "ManifestTool output directory not found!"
+            exit 1
+          fi
+      
+          if [ ! -f "$VERSION_FILE" ]; then
+            echo "version.json not found!"
+            exit 1
+          fi
+      
+          # 检查 version.json 是否有变更
+          git add "$VERSION_FILE"
+          if git diff --staged --quiet -- "$VERSION_FILE"; then
+            echo "version.json has not changed, skipping commit"
+            git reset HEAD "$VERSION_FILE"
+            exit 0
+          fi
+      
+          # 版本有变化 -> 先提交 version.json
+          git commit -m "update: resource manifest version.json"
+      
+          # 遍历区域并提交对应目录
+          for region in $(jq -r 'keys[]' "$VERSION_FILE"); do
+            # version=$(jq -r ".\"$region\"" "$VERSION_FILE")
+            region_lower="${region,,}"
+            REGION_DIR="$TARGET_DIR/$region"
+            
+            game_ver=$(jq -r ".\"$region\".game_ver" "$VERSION_FILE")
+            patch_num=$(jq -r ".\"$region\".patch_ver" "$VERSION_FILE")
+            
+            if [ -d "$REGION_DIR" ]; then
+              git add "$REGION_DIR/${MANIFEST_FILE}"
+              if ! git diff --staged --quiet -- "$REGION_DIR/"; then
+                git commit -m "chore($region_lower): $game_ver p$patch_num"
+              else
+                git reset HEAD "$REGION_DIR/"
+                echo "No changes in $region, skipping"
+              fi
+            else
+              echo "Directory $REGION_DIR not found, skipping"
+            fi
+          done
+      
+          # 推送所有提交
+          git push
+        
+      - name: Auto commit
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          repository: ./source_repo
+          commit_message: "update: manifest-tool.toml"
+          file_pattern: "tools/ManifestTool/manifest-tool.toml"
