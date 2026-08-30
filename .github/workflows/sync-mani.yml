@@ -73,12 +73,13 @@ jobs:
             REGION_DIR="$TARGET_DIR/$region"
             
             game_ver=$(jq -r ".\"$region\".game_ver" "$VERSION_FILE")
-            patch_num=$(jq -r ".\"$region\".patch_ver" "$VERSION_FILE")
+            patch_num=$(jq -r ".\"$region\".patch_num" "$VERSION_FILE")
+            patch_ver=$(jq -r ".\"$region\".patch_ver" "$VERSION_FILE")
             
             if [ -d "$REGION_DIR" ]; then
               git add "$REGION_DIR/${MANIFEST_FILE}"
               if ! git diff --staged --quiet -- "$REGION_DIR/"; then
-                git commit -m "chore($region_lower): $game_ver p$patch_num"
+                git commit -m "chore($region_lower): $game_ver (v${patch_ver}-p$patch_num)"
               else
                 git reset HEAD "$REGION_DIR/"
                 echo "No changes in $region, skipping"
