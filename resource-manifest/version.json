@@ -2,31 +2,36 @@
     "CN": {
         "client_ver": "1.13.0",
         "game_ver": "1.14.0",
-        "patch_ver": "6",
-        "ver_str": "[c1.13.0_g1.14.0_p6]"
+        "patch_num": "6",
+        "patch_ver": "131",
+        "version_str": "[c1.13.0_g1.14.0_p6]"
     },
     "EN": {
         "client_ver": "1.13.0",
         "game_ver": "1.14.0",
-        "patch_ver": "6",
-        "ver_str": "[c1.13.0_g1.14.0_p6]"
+        "patch_num": "6",
+        "patch_ver": "131",
+        "version_str": "[c1.13.0_g1.14.0_p6]"
     },
     "JP": {
         "client_ver": "1.13.0",
         "game_ver": "1.14.0",
-        "patch_ver": "6",
-        "ver_str": "[c1.13.0_g1.14.0_p6]"
+        "patch_num": "6",
+        "patch_ver": "135",
+        "version_str": "[c1.13.0_g1.14.0_p6]"
     },
     "KR": {
         "client_ver": "1.13.0",
         "game_ver": "1.14.0",
-        "patch_ver": "6",
-        "ver_str": "[c1.13.0_g1.14.0_p6]"
+        "patch_num": "6",
+        "patch_ver": "137",
+        "version_str": "[c1.13.0_g1.14.0_p6]"
     },
     "TW": {
         "client_ver": "1.13.0",
         "game_ver": "1.14.0",
-        "patch_ver": "6",
-        "ver_str": "[c1.13.0_g1.14.0_p6]"
+        "patch_num": "6",
+        "patch_ver": "141",
+        "version_str": "[c1.13.0_g1.14.0_p6]"
     }
 }
