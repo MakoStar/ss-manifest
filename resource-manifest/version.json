@@ -9,9 +9,9 @@
     "EN": {
         "client_ver": "1.13.0",
         "game_ver": "1.16.0",
-        "patch_num": "12",
-        "patch_ver": "138",
-        "version_str": "[c1.13.0_g1.16.0_p12]"
+        "patch_num": "13",
+        "patch_ver": "139",
+        "version_str": "[c1.13.0_g1.16.0_p13]"
     },
     "JP": {
         "client_ver": "1.13.0",
@@ -23,9 +23,9 @@
     "KR": {
         "client_ver": "1.13.0",
         "game_ver": "1.16.0",
-        "patch_num": "11",
-        "patch_ver": "143",
-        "version_str": "[c1.13.0_g1.16.0_p11]"
+        "patch_num": "13",
+        "patch_ver": "145",
+        "version_str": "[c1.13.0_g1.16.0_p13]"
     },
     "TW": {
         "client_ver": "1.13.0",
