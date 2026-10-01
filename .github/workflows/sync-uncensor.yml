@@ -1,0 +1,49 @@
+name: Sync uncensor data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-uncensor:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 24
+
+    - name: Run uncensor script
+      run: node scripts/uncensor.js
+      shell: bash
+
+    - name: Read version metadata
+      id: meta
+      run: |
+        GAME_VER=$(jq -r '.GAME_VER' uncensor-manifest/version.json)
+        RES_VER=$(jq -r '.RES_VER' uncensor-manifest/version.json)
+        echo "game_ver=$GAME_VER" >> "$GITHUB_OUTPUT"
+        echo "res_ver=$RES_VER" >> "$GITHUB_OUTPUT"
+
+    - name: Commit and push if changed
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add uncensor-manifest
+        if git diff --cached --quiet; then
+          echo "No changes to commit."
+        else
+          git commit -m "chore(uncensor): ${{ steps.meta.outputs.game_ver }}  ${{ steps.meta.outputs.res_ver }}"
+          git push
+        fi
+      shell: bash
