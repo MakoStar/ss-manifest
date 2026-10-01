@@ -67,7 +67,7 @@ jobs:
             if [ -d "$REGION_DIR" ]; then
               git add "$REGION_DIR/"
               if ! git diff --staged --quiet -- "$REGION_DIR/"; then
-                git commit -m "chore($region_lower): v$version"
+                git commit -m "chore(launcher): $region_lower v$version"
               else
                 git reset HEAD "$REGION_DIR/"
                 echo "No changes in $region, skipping"
