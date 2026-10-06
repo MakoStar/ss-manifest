@@ -1,37 +1,37 @@
 {
     "CN": {
         "client_ver": "1.13.0",
-        "game_ver": "1.16.0",
-        "patch_num": "11",
-        "patch_ver": "137",
-        "version_str": "[c1.13.0_g1.16.0_p11]"
+        "game_ver": "1.16.1",
+        "patch_num": "12",
+        "patch_ver": "139",
+        "version_str": "[c1.13.0_g1.16.1_p12]"
     },
     "EN": {
         "client_ver": "1.13.0",
-        "game_ver": "1.16.0",
-        "patch_num": "13",
-        "patch_ver": "139",
-        "version_str": "[c1.13.0_g1.16.0_p13]"
+        "game_ver": "1.16.1",
+        "patch_num": "14",
+        "patch_ver": "140",
+        "version_str": "[c1.13.0_g1.16.1_p14]"
     },
     "JP": {
         "client_ver": "1.13.0",
-        "game_ver": "1.16.0",
-        "patch_num": "11",
-        "patch_ver": "141",
-        "version_str": "[c1.13.0_g1.16.0_p11]"
+        "game_ver": "1.16.1",
+        "patch_num": "12",
+        "patch_ver": "142",
+        "version_str": "[c1.13.0_g1.16.1_p12]"
     },
     "KR": {
         "client_ver": "1.13.0",
-        "game_ver": "1.16.0",
-        "patch_num": "13",
-        "patch_ver": "145",
-        "version_str": "[c1.13.0_g1.16.0_p13]"
+        "game_ver": "1.16.1",
+        "patch_num": "14",
+        "patch_ver": "146",
+        "version_str": "[c1.13.0_g1.16.1_p14]"
     },
     "TW": {
         "client_ver": "1.13.0",
-        "game_ver": "1.16.0",
-        "patch_num": "12",
-        "patch_ver": "147",
-        "version_str": "[c1.13.0_g1.16.0_p12]"
+        "game_ver": "1.16.1",
+        "patch_num": "13",
+        "patch_ver": "148",
+        "version_str": "[c1.13.0_g1.16.1_p13]"
     }
 }
