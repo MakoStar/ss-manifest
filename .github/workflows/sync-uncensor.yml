@@ -36,14 +36,39 @@ jobs:
         echo "res_ver=$RES_VER" >> "$GITHUB_OUTPUT"
 
     - name: Commit and push if changed
+      id: commit
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git add uncensor-manifest
         if git diff --cached --quiet; then
           echo "No changes to commit."
+          echo "changed=false" >> "$GITHUB_OUTPUT"
         else
           git commit -m "chore(uncensor): ${{ steps.meta.outputs.game_ver }}  ${{ steps.meta.outputs.res_ver }}"
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "commit_sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+          echo "commit_msg=$(git log -1 --pretty=%s)" >> "$GITHUB_OUTPUT"
         fi
       shell: bash
+
+    # "subject":     "uncensor send - ${{ github.repository }}",
+    # "to":          "email",
+    - name: Trigger email notification
+      if: steps.commit.outputs.changed == 'false'
+      uses: peter-evans/repository-dispatch@v4
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+        repository: MakoStar/email-notifier
+        event-type: send-email
+        client-payload: |
+          {
+            "source_repo": "${{ github.repository }}",
+            "source_ref":  "${{ github.ref_name }}",
+            "actor":       "${{ github.actor }}",
+            "subject":     "[ss-manifest] uncensor manifest updated",
+            "body":        "反和谐清单更新!",
+            "commit_sha":  "${{ steps.commit.outputs.commit_sha }}",
+            "run_url":     "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }
