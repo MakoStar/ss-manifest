@@ -1,21 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 
-const OWNER = 'MakoStar';
-const REPO_NAME = 'ss-manifest';
-const BRANCH = 'main';
-const BASE_PATH = 'resource-manifest';
-const OUT_DIR_NAME = 'res-ap-manifest';
+const ROOT = process.env.SS_MANIFEST_ROOT
+  ? path.resolve(process.env.SS_MANIFEST_ROOT)
+  : path.join(__dirname, '..');
 
-const REPO_ROOT = fs.existsSync(path.join(__dirname, '..', BASE_PATH))
-  ? path.join(__dirname, '..')
-  : null;
+const SRC_DIR = path.join(ROOT, 'resource-manifest');
 
 const OUT = process.env.AP_OUT_DIR
   ? path.resolve(process.env.AP_OUT_DIR)
-  : REPO_ROOT
-  ? path.join(REPO_ROOT, OUT_DIR_NAME)
-  : path.join(__dirname, 'out');
+  : path.join(ROOT, 'res-ap-manifest');
 
 const REGIONS = [
   { name: 'CN', host: 'https://nova-static.yostar.cn' },
@@ -26,54 +20,21 @@ const REGIONS = [
 ];
 
 function parseArgs(argv) {
-  const opts = { fresh: false, mdOnly: false, localRoot: null };
+  const opts = { fresh: false, mdOnly: false };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--fresh') opts.fresh = true;
     else if (arg === '--md-only') opts.mdOnly = true;
-    else if (arg === '--local') opts.localRoot = argv[++i] || null;
   }
   return opts;
 }
 
-function resolveLocalRoot(opts) {
-  if (opts.localRoot) return opts.localRoot;
+function readManifest(region) {
+  const file = path.join(SRC_DIR, region, 'resource_manifest.json');
 
-  const candidates = [
-    process.env.SS_MANIFEST_ROOT,
-    REPO_ROOT,
-    process.cwd(),
-    path.join(process.cwd(), REPO_NAME),
-  ];
+  if (!fs.existsSync(file)) throw new Error(`Manifest not found: ${file}`);
 
-  for (const root of candidates) {
-    if (root && fs.existsSync(path.join(root, BASE_PATH))) return root;
-  }
-
-  return null;
-}
-
-async function fetchRemote(region) {
-  const url = `https://raw.githubusercontent.com/${OWNER}/${REPO_NAME}/${BRANCH}/${BASE_PATH}/${region}/resource_manifest.json`;
-  const res = await fetch(url, { headers: { 'User-Agent': 'ss-manifest-ap' } });
-
-  if (!res.ok) throw new Error(`Download failed ${region} ${res.status} ${url}`);
-
-  return await res.text();
-}
-
-async function readManifest(region, localRoot) {
-  if (localRoot) {
-    const file = path.join(localRoot, BASE_PATH, region, 'resource_manifest.json');
-    if (!fs.existsSync(file)) throw new Error(`Local manifest not found: ${file}`);
-    return fs.readFileSync(file, 'utf8');
-  }
-
-  try {
-    return await fetchRemote(region);
-  } catch (e) {
-    throw new Error(`${e.message} (use --local to point at a local ss-manifest directory)`);
-  }
+  return fs.readFileSync(file, 'utf8');
 }
 
 function mergeManifest(agg, raw) {
@@ -234,19 +195,19 @@ function rebuildMd() {
   writeApMd(rows);
 }
 
-async function generate(opts) {
+function generate(opts) {
+  if (!fs.existsSync(SRC_DIR)) throw new Error(`Source directory not found: ${SRC_DIR}`);
+
   fs.mkdirSync(OUT, { recursive: true });
 
-  const localRoot = resolveLocalRoot(opts);
   const allRows = [];
   const summary = [];
 
   for (const region of REGIONS) {
     const agg = opts.fresh ? new Map() : loadExisting(region.name, region.host);
     const before = agg.size;
-    const raw = await readManifest(region.name, localRoot);
 
-    mergeManifest(agg, raw);
+    mergeManifest(agg, readManifest(region.name));
 
     const rows = buildRows(region.name, agg);
     allRows.push(...rows);
@@ -271,7 +232,7 @@ function printSummary(summary) {
   console.log(`Output directory: ${OUT}`);
 }
 
-async function main() {
+function main() {
   const opts = parseArgs(process.argv.slice(2));
 
   if (opts.mdOnly) {
@@ -280,15 +241,16 @@ async function main() {
     return;
   }
 
-  const summary = await generate(opts);
-  printSummary(summary);
+  printSummary(generate(opts));
 }
 
-module.exports = { generate, rebuildMd, printSummary, parseArgs, REGIONS, OUT, REPO_ROOT };
+module.exports = { generate, rebuildMd, printSummary, parseArgs, REGIONS, ROOT, SRC_DIR, OUT };
 
 if (require.main === module) {
-  main().catch((e) => {
+  try {
+    main();
+  } catch (e) {
     console.error(e.message);
     process.exit(1);
-  });
+  }
 }

@@ -14,17 +14,19 @@ function verify() {
   console.log(`Verified ${required.length} files`);
 }
 
-async function main() {
+function main() {
   const started = Date.now();
   const opts = parseArgs(process.argv.slice(2));
-  const summary = await generate(opts);
 
-  printSummary(summary);
+  printSummary(generate(opts));
   verify();
+
   console.log(`Finished in ${((Date.now() - started) / 1000).toFixed(1)}s`);
 }
 
-main().catch((e) => {
+try {
+  main();
+} catch (e) {
   console.error(e.message);
   process.exit(1);
-});
+}
