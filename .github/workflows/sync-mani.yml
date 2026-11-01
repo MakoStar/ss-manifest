@@ -57,7 +57,8 @@ jobs:
             exit 1
           fi
 
-          rsync -a --delete "$SOURCE_DIR"/ "$TARGET_DIR"/
+          # rsync -a --delete "$SOURCE_DIR"/ "$TARGET_DIR"/
+          rsync -a "$SOURCE_DIR"/ "$TARGET_DIR"/
 
           if [ ! -f "$VERSION_FILE" ]; then
             echo "version.json not found!"
