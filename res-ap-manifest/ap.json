@@ -254,6 +254,11 @@
       "version": 144,
       "ap": "2458356875d986c3b1e25da7125ec46c",
       "files": 49
+    },
+    {
+      "version": 146,
+      "ap": "98d6922651421850d981af0f959cd910",
+      "files": 20
     }
   ],
   "EN": [
@@ -526,6 +531,11 @@
       "version": 145,
       "ap": "73d0a5ed73c7b5507c8ffb0fd25af693",
       "files": 49
+    },
+    {
+      "version": 146,
+      "ap": "2b96ea0a1e0d0c676dd2a1146afc1926",
+      "files": 26
     }
   ],
   "JP": [
@@ -793,6 +803,11 @@
       "version": 147,
       "ap": "7941127a8a5ed20c0f8670df2c54d70b",
       "files": 49
+    },
+    {
+      "version": 148,
+      "ap": "51de25fd46df3b51c2491ca030c67cc9",
+      "files": 26
     }
   ],
   "KR": [
@@ -1065,6 +1080,11 @@
       "version": 152,
       "ap": "7fc6a124f7446a7728175f1719c2aff2",
       "files": 49
+    },
+    {
+      "version": 153,
+      "ap": "da1239517c6d10df61feff88e81857d2",
+      "files": 26
     }
   ],
   "TW": [
@@ -1322,6 +1342,11 @@
       "version": 153,
       "ap": "8421f67be1496cf5aaa3cb37e719f8d1",
       "files": 49
+    },
+    {
+      "version": 154,
+      "ap": "05e1b898e2afdfd739c7bc0417c31b11",
+      "files": 26
     }
   ]
 }
