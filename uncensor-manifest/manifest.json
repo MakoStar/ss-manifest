@@ -1,9 +1,9 @@
 {
   "meta": {
-    "RES_VER": "2610292118",
+    "RES_VER": "2611061741",
     "CLIENT_VER": "2.0.0",
     "CLIENT_VER_COMP_MODE": "TARGET",
-    "GAME_VER": "2.0.1",
+    "GAME_VER": "2.0.2",
     "CLEAR_EXPIRED_FILES": "1",
     "len": 124
   },
@@ -109,10 +109,10 @@
     "671851e13d6f9d6041d99fb4a15fca61": "icon-9.unity3d",
     "082cbbf8a066869e39fadf983333037d": "icon-a.unity3d",
     "5089cd514ae37abcb37fbccfc6624670": "icon-b.unity3d",
-    "225cd79c052646a2caf11d7be455e36d": "icon-c.unity3d",
-    "ee890de7ee785721ba9fc1667da5db0b": "icon-d.unity3d",
+    "d81c2f3eb49b708f8fc7b1e89f89b894": "icon-c.unity3d",
+    "83557fab4c5ce80c5cb435a9f331cf39": "icon-d.unity3d",
     "c8707b42a0213e700553a660bf583755": "icon-e.unity3d",
-    "56026175487e26cc0cc571fc9f9dc460": "icon-f.unity3d",
+    "d58f739fb8043dd389dca2acf3d6bd94": "icon-f.unity3d",
     "2bfc9c86f0ef130cec5a46b5083385aa": "npc_2d_910201.unity3d",
     "cd6ac43f800a438ef3a640f1eb7c03df": "npc_2d_910202.unity3d",
     "6c722d59d02ddf192924ee1f75455002": "npc_2d_913301.unity3d",
