@@ -40953,5 +40953,21 @@
       "https://nova-static.stellasora.kr/res/win/154/b3deb1feec429ed5fdcb73e90b9cfe3c/ss_win.mani",
       "https://nova-static.stellasora.kr/res/win/154/b3deb1feec429ed5fdcb73e90b9cfe3c/ss_win_add.mani"
     ]
+  },
+  "155": {
+    "39ab0611d082e4f5c4df42808d182c59": [
+      "https://nova-static.stellasora.kr/res/win/155/39ab0611d082e4f5c4df42808d182c59/p_8_m.ss_win.mani",
+      "https://nova-static.stellasora.kr/res/win/155/39ab0611d082e4f5c4df42808d182c59/p_8_u.char_14301_animations.unity3d",
+      "https://nova-static.stellasora.kr/res/win/155/39ab0611d082e4f5c4df42808d182c59/p_8_u.hotfix.arch",
+      "https://nova-static.stellasora.kr/res/win/155/39ab0611d082e4f5c4df42808d182c59/p_8_u.win.unity3d"
+    ]
+  },
+  "156": {
+    "c461b9776fd2936e7c98d212360479cf": [
+      "https://nova-static.stellasora.kr/res/win/156/c461b9776fd2936e7c98d212360479cf/p_9_m.ss_win.mani",
+      "https://nova-static.stellasora.kr/res/win/156/c461b9776fd2936e7c98d212360479cf/p_9_u.hotfix.arch",
+      "https://nova-static.stellasora.kr/res/win/156/c461b9776fd2936e7c98d212360479cf/p_9_u.lua.arcx",
+      "https://nova-static.stellasora.kr/res/win/156/c461b9776fd2936e7c98d212360479cf/ss_win.mani"
+    ]
   }
 }
